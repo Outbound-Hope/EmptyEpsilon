@@ -92,16 +92,6 @@ RelayScreen::RelayScreen(GuiContainer* owner)
     option_buttons = new GuiAutoLayout(this, "BUTTONS", GuiAutoLayout::LayoutVerticalTopToBottom);
     option_buttons->setPosition(20, 50, ATopLeft)->setSize(250, GuiElement::GuiSizeMax);
 
-    // Hack target
-    hack_target_button = new GuiButton(option_buttons, "HACK_TARGET", "Start hacking", [this](){
-        P<SpaceObject> target = targets.get();
-        if (my_spaceship && target && target->canBeHackedBy(my_spaceship))
-        {
-            hacking_dialog->open(target);
-        }
-    });
-    hack_target_button->setSize(GuiElement::GuiSizeMax, 50);
-
     // Link probe to science button.
     link_to_science_button = new GuiToggleButton(option_buttons, "LINK_TO_SCIENCE", "Link to Scanning", [this](bool value){
         if (value)
@@ -161,8 +151,6 @@ RelayScreen::RelayScreen(GuiContainer* owner)
     }
 
     (new GuiCustomShipFunctions(this, relayOfficer, ""))->setPosition(-20, 240, ATopRight)->setSize(250, GuiElement::GuiSizeMax);
-
-    hacking_dialog = new GuiHackingDialog(this, "");
 
     new ShipsLog(this);
 }
@@ -242,14 +230,7 @@ void RelayScreen::onDraw(sf::RenderTarget& window)
             link_to_science_button->setValue(false);
             link_to_science_button->disable();
         }
-        if (my_spaceship && obj->canBeHackedBy(my_spaceship))
-        {
-            hack_target_button->enable();
-        }else{
-            hack_target_button->disable();
-        }
     }else{
-        hack_target_button->disable();
         link_to_science_button->disable();
         link_to_science_button->setValue(false);
         info_callsign->setValue("-");
