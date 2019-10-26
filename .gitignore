@@ -30,13 +30,24 @@ thumbs.db
 
 # output directory
 .bin
+.obj
 
 # vim
 *.swp
 
-options.ini
+# options.ini
 
-
+.idea
+*.html
+www/*.html
+!www/logs.html
+!resources/log_template.html
 .vscode
-logs
+logs/*.txt
+logs/*.json
 *.log
+.vs/*
+CMakeSettings.json
+cmake/_win32
+_build_win32
+_build_win32
