@@ -124,7 +124,11 @@ void PlayerInfo::spawnUI()
         if (crew_position[helmsOfficer])
             screen->addStationTab(new HelmsScreen(screen), helmsOfficer, getCrewPositionName(helmsOfficer), getCrewPositionIcon(helmsOfficer));
         if (crew_position[weaponsOfficer])
-            screen->addStationTab(new WeaponsScreen(screen), weaponsOfficer, getCrewPositionName(weaponsOfficer), getCrewPositionIcon(weaponsOfficer));
+            screen->addStationTab(new WeaponsScreen(screen, All), weaponsOfficer, getCrewPositionName(weaponsOfficer), getCrewPositionIcon(weaponsOfficer));
+        if (crew_position[weaponsOfficerFrontAndRight])
+            screen->addStationTab(new WeaponsScreen(screen, FrontAndRight), weaponsOfficerFrontAndRight, getCrewPositionName(weaponsOfficerFrontAndRight), getCrewPositionIcon(weaponsOfficerFrontAndRight));
+        if (crew_position[weaponsOfficerRearAndLeft])
+            screen->addStationTab(new WeaponsScreen(screen, RearAndLeft), weaponsOfficerRearAndLeft, getCrewPositionName(weaponsOfficerRearAndLeft), getCrewPositionIcon(weaponsOfficerRearAndLeft));
         if (crew_position[engineering])
             screen->addStationTab(new EngineeringScreen(screen), engineering, getCrewPositionName(engineering), getCrewPositionIcon(engineering));
         if (crew_position[scienceOfficer])
@@ -187,6 +191,8 @@ string getCrewPositionName(ECrewPosition position)
     {
     case helmsOfficer: return "Helms";
     case weaponsOfficer: return "Weapons";
+    case weaponsOfficerFrontAndRight: return "Starboard Weapons";
+    case weaponsOfficerRearAndLeft: return "Portside Weapons";
     case engineering: return "Engineering";
     case scienceOfficer: return "Scanning";
     case relayOfficer: return "Operations";
@@ -206,7 +212,7 @@ string getCrewPositionIcon(ECrewPosition position)
     switch(position)
     {
     case helmsOfficer: return "gui/icons/station-helm";
-    case weaponsOfficer: return "gui/icons/station-weapons";
+    case weaponsOfficer: case weaponsOfficerFrontAndRight: case weaponsOfficerRearAndLeft: return "gui/icons/station-weapons";
     case engineering: return "gui/icons/station-engineering";
     case scienceOfficer: return "gui/icons/station-science";
     case relayOfficer: return "gui/icons/station-relay";
@@ -231,6 +237,10 @@ template<> void convert<ECrewPosition>::param(lua_State* L, int& idx, ECrewPosit
         cp = helmsOfficer;
     else if (str == "weapons" || str == "weaponsofficer")
         cp = weaponsOfficer;
+    else if (str == "Starboard Weapons")
+        cp = weaponsOfficerFrontAndRight;
+    else if (str == "Portside Weapons")
+        cp = weaponsOfficerRearAndLeft;
     else if (str == "engineering" || str == "engineeringsofficer")
         cp = engineering;
     else if (str == "scanning" || str == "scienceofficer")

@@ -63,7 +63,7 @@ GuiMainScreenControls::GuiMainScreenControls(GuiContainer* owner)
 
     // If the player has control over weapons targeting, enable the target view
     // option in the main screen controls.
-    if (my_player_info->crew_position[weaponsOfficer] || my_player_info->crew_position[tacticalOfficer] || my_player_info->crew_position[singlePilot])
+    if (my_player_info->crew_position[weaponsOfficer] || my_player_info->crew_position[tacticalOfficer] || my_player_info->crew_position[singlePilot] || my_player_info->crew_position[weaponsOfficerFrontAndRight] || my_player_info->crew_position[weaponsOfficerRearAndLeft])
     {
         buttons.push_back(new GuiButton(this, "MAIN_SCREEN_TARGET_BUTTON", "Target lock", [this]()
         {

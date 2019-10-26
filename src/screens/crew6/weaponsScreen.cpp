@@ -16,8 +16,8 @@
 #include "gui/gui2_label.h"
 #include "gui/gui2_keyvaluedisplay.h"
 
-WeaponsScreen::WeaponsScreen(GuiContainer* owner)
-: GuiOverlay(owner, "WEAPONS_SCREEN", colorConfig.background)
+WeaponsScreen::WeaponsScreen(GuiContainer* owner, EWeaponScreenDirection direction)
+: GuiOverlay(owner, "WEAPONS_SCREEN", colorConfig.background), direction(direction)
 {
     // Render the radar shadow and background decorations.
     background_gradient = new GuiOverlay(this, "BACKGROUND_GRADIENT", sf::Color::White);
@@ -46,7 +46,7 @@ WeaponsScreen::WeaponsScreen(GuiContainer* owner)
     });
     missile_aim->setPosition(0, 0, ACenter)->setSize(GuiElement::GuiSizeMatchHeight, 850);
 
-    tube_controls = new GuiMissileTubeControls(this, "MISSILE_TUBES");
+    tube_controls = new GuiMissileTubeControls(this, "MISSILE_TUBES", direction);
     tube_controls->setPosition(20, -20, ABottomLeft);
     radar->enableTargetProjections(tube_controls);
 

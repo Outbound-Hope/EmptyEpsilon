@@ -8,8 +8,8 @@
 #include "gui/gui2_label.h"
 #include "gui/gui2_togglebutton.h"
 
-GuiMissileTubeControls::GuiMissileTubeControls(GuiContainer* owner, string id)
-: GuiAutoLayout(owner, id, LayoutVerticalBottomToTop), load_type(MW_None), manual_aim(false), missile_target_angle(0)
+GuiMissileTubeControls::GuiMissileTubeControls(GuiContainer* owner, string id, EWeaponScreenDirection direction)
+: GuiAutoLayout(owner, id, LayoutVerticalBottomToTop), load_type(MW_None), manual_aim(false), missile_target_angle(0), direction(direction)
 {
     setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);
 
@@ -96,50 +96,58 @@ void GuiMissileTubeControls::onDraw(sf::RenderTarget& window){
     for (int n = 0; n < my_spaceship->weapon_tube_count; n++)
     {
         WeaponTube& tube = my_spaceship->weapon_tube[n];
-        rows[n].layout->show();
-        if (tube.canOnlyLoad(MW_Mine))
-            rows[n].fire_button->setIcon("gui/icons/weapon-mine", ACenterLeft);
-        else
-            rows[n].fire_button->setIcon("gui/icons/missile", ACenterLeft, tube.getDirection());
-        if(tube.isEmpty())
+        
+        if (direction == All || 
+            (direction == FrontAndRight && std::abs(sf::angleDifference(45.f, tube.getDirection())) <= 90)|| 
+            (direction == RearAndLeft && std::abs(sf::angleDifference(225.0f, tube.getDirection())) <= 90))
         {
-            rows[n].load_button->setEnable(tube.canLoad(load_type));
-            rows[n].load_button->setText("Load");
-            rows[n].fire_button->disable()->show();
-            rows[n].fire_button->setText(tube.getTubeName() + ": Empty");
-            rows[n].loading_bar->hide();
-        }else if(tube.isLoaded())
-        {
-            rows[n].load_button->enable();
-            rows[n].load_button->setText("Unload");
-            rows[n].fire_button->enable()->show();
-            rows[n].fire_button->setText(tube.getTubeName() + ": " + getMissileWeaponName(tube.getLoadType()));
-            rows[n].loading_bar->hide();
-        }else if(tube.isLoading())
-        {
-            rows[n].load_button->disable();
-            rows[n].load_button->setText("Load");
-            rows[n].fire_button->hide();
-            rows[n].fire_button->setText(tube.getTubeName() + ": " + getMissileWeaponName(tube.getLoadType()));
-            rows[n].loading_bar->show();
-            rows[n].loading_bar->setValue(tube.getLoadProgress());
-            rows[n].loading_label->setText("Loading");
-        }else if(tube.isUnloading())
-        {
-            rows[n].load_button->disable();
-            rows[n].load_button->setText("Unload");
-            rows[n].fire_button->hide();
-            rows[n].fire_button->setText(getMissileWeaponName(tube.getLoadType()));
-            rows[n].loading_bar->show();
-            rows[n].loading_bar->setValue(tube.getUnloadProgress());
-            rows[n].loading_label->setText("Unloading");
-        }else if(tube.isFiring())
-        {
-            rows[n].load_button->disable();
-            rows[n].load_button->setText("Load");
-            rows[n].fire_button->disable()->show();
-            rows[n].fire_button->setText("Firing");
-            rows[n].loading_bar->hide();
+            rows[n].layout->show();
+            if (tube.canOnlyLoad(MW_Mine))
+                rows[n].fire_button->setIcon("gui/icons/weapon-mine", ACenterLeft);
+            else
+                rows[n].fire_button->setIcon("gui/icons/missile", ACenterLeft, tube.getDirection());
+            if(tube.isEmpty())
+            {
+                rows[n].load_button->setEnable(tube.canLoad(load_type));
+                rows[n].load_button->setText("Load");
+                rows[n].fire_button->disable()->show();
+                rows[n].fire_button->setText(tube.getTubeName() + ": Empty");
+                rows[n].loading_bar->hide();
+            }else if(tube.isLoaded())
+            {
+                rows[n].load_button->enable();
+                rows[n].load_button->setText("Unload");
+                rows[n].fire_button->enable()->show();
+                rows[n].fire_button->setText(tube.getTubeName() + ": " + getMissileWeaponName(tube.getLoadType()));
+                rows[n].loading_bar->hide();
+            }else if(tube.isLoading())
+            {
+                rows[n].load_button->disable();
+                rows[n].load_button->setText("Load");
+                rows[n].fire_button->hide();
+                rows[n].fire_button->setText(tube.getTubeName() + ": " + getMissileWeaponName(tube.getLoadType()));
+                rows[n].loading_bar->show();
+                rows[n].loading_bar->setValue(tube.getLoadProgress());
+                rows[n].loading_label->setText("Loading");
+            }else if(tube.isUnloading())
+            {
+                rows[n].load_button->disable();
+                rows[n].load_button->setText("Unload");
+                rows[n].fire_button->hide();
+                rows[n].fire_button->setText(getMissileWeaponName(tube.getLoadType()));
+                rows[n].loading_bar->show();
+                rows[n].loading_bar->setValue(tube.getUnloadProgress());
+                rows[n].loading_label->setText("Unloading");
+            }else if(tube.isFiring())
+            {
+                rows[n].load_button->disable();
+                rows[n].load_button->setText("Load");
+                rows[n].fire_button->disable()->show();
+                rows[n].fire_button->setText("Firing");
+                rows[n].loading_bar->hide();
+            }
+        } else {
+            rows[n].layout->hide();
         }
     }
     for(int n=my_spaceship->weapon_tube_count; n<max_weapon_tubes; n++)

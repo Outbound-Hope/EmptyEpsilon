@@ -421,10 +421,12 @@ void ShipSelectionScreen::updateCrewTypeOptions()
     switch(crew_type_selector->getSelectionIndex())
     {
     case 0:
-        for(int n = helmsOfficer; n <= relayOfficer; n++)
-        {
-            crew_position_button[n]->show();
-        }
+        crew_position_button[helmsOfficer]->show();
+        crew_position_button[weaponsOfficerFrontAndRight]->show();
+        crew_position_button[weaponsOfficerRearAndLeft]->show();
+        crew_position_button[engineering]->show();
+        crew_position_button[scienceOfficer]->show();
+        crew_position_button[relayOfficer]->show();
         break;
     case 1:
         for(int n = tacticalOfficer; n <= operationsOfficer; n++)

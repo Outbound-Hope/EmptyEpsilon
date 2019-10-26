@@ -68,7 +68,7 @@ void TutorialGame::createScreens()
     long_range_radar->setFogOfWarStyle(GuiRadarView::NebulaFogOfWar);
 
     station_screen[0] = new HelmsScreen(this);
-    station_screen[1] = new WeaponsScreen(this);
+    station_screen[1] = new WeaponsScreen(this, All);
     station_screen[2] = new EngineeringScreen(this);
     station_screen[3] = new ScienceScreen(this);
     station_screen[4] = new RelayScreen(this);

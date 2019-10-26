@@ -21,6 +21,8 @@ enum ECrewPosition
     damageControl,
     powerManagement,
     // databaseView,
+    weaponsOfficerFrontAndRight,
+    weaponsOfficerRearAndLeft,
 
     max_crew_positions
 };

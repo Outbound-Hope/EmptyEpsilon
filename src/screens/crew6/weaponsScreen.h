@@ -10,9 +10,16 @@ class GuiKeyValueDisplay;
 class GuiToggleButton;
 class GuiRotationDial;
 
+enum EWeaponScreenDirection
+{
+    FrontAndRight,
+    RearAndLeft,
+    All
+};
 class WeaponsScreen : public GuiOverlay
 {
 private:
+    EWeaponScreenDirection direction;
     GuiOverlay* background_gradient;
     GuiOverlay* background_crosses;
 
@@ -25,7 +32,7 @@ private:
     GuiRotationDial* missile_aim;
     GuiToggleButton* lock_aim;
 public:
-    WeaponsScreen(GuiContainer* owner);
+    WeaponsScreen(GuiContainer* owner, EWeaponScreenDirection direction); // = All
     
     virtual void onDraw(sf::RenderTarget& window) override;
     virtual void onHotkey(const HotkeyResult& key) override;
