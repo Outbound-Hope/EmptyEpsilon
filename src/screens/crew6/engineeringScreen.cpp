@@ -2,7 +2,6 @@
 #include "gameGlobalInfo.h"
 #include "engineeringScreen.h"
 
-#include "screenComponents/shipInternalView.h"
 #include "screenComponents/selfDestructButton.h"
 #include "screenComponents/alertOverlay.h"
 #include "screenComponents/customShipFunctions.h"
@@ -136,8 +135,6 @@ EngineeringScreen::EngineeringScreen(GuiContainer* owner, ECrewPosition crew_pos
     for(float snap_point = 0.0; snap_point <= 10.0; snap_point += 2.5)
         coolant_slider->addSnapValue(snap_point, 0.1);
     coolant_slider->disable();
-
-    (new GuiShipInternalView(system_row_layouts, "SHIP_INTERNAL_VIEW", 48.0f))->setShip(my_spaceship)->setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);
 
     (new GuiCustomShipFunctions(this, crew_position, ""))->setPosition(-20, 120, ATopRight)->setSize(250, GuiElement::GuiSizeMax);
 
