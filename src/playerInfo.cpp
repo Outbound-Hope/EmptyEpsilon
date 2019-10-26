@@ -148,8 +148,8 @@ void PlayerInfo::spawnUI()
             screen->addStationTab(new DamageControlScreen(screen), damageControl, getCrewPositionName(damageControl), getCrewPositionIcon(damageControl));
         if (crew_position[powerManagement])
             screen->addStationTab(new PowerManagementScreen(screen), powerManagement, getCrewPositionName(powerManagement), getCrewPositionIcon(powerManagement));
-        if (crew_position[databaseView])
-            screen->addStationTab(new DatabaseScreen(screen), databaseView, getCrewPositionName(databaseView), getCrewPositionIcon(databaseView));
+        // if (crew_position[databaseView])
+        //     screen->addStationTab(new DatabaseScreen(screen), databaseView, getCrewPositionName(databaseView), getCrewPositionIcon(databaseView));
         
         //Ship log screen, if you have comms, you have ships log. (note this is mostly replaced by the [at the bottom of the screen openable log]
         if (crew_position[singlePilot])
@@ -188,15 +188,15 @@ string getCrewPositionName(ECrewPosition position)
     case helmsOfficer: return "Helms";
     case weaponsOfficer: return "Weapons";
     case engineering: return "Engineering";
-    case scienceOfficer: return "Science";
-    case relayOfficer: return "Relay";
+    case scienceOfficer: return "Scanning";
+    case relayOfficer: return "Operations";
     case tacticalOfficer: return "Tactical";
     case engineeringAdvanced: return "Engineering+";
     case operationsOfficer: return "Operations";
     case singlePilot: return "Single Pilot";
     case damageControl: return "Damage Control";
     case powerManagement: return "Power Management";
-    case databaseView: return "Database";
+    // case databaseView: return "Database";
     default: return "ErrUnk: " + string(position);
     }
 }
@@ -216,7 +216,7 @@ string getCrewPositionIcon(ECrewPosition position)
     case singlePilot: return "";
     case damageControl: return "";
     case powerManagement: return "";
-    case databaseView: return "";
+    // case databaseView: return "";
     default: return "ErrUnk: " + string(position);
     }
 }
@@ -233,7 +233,7 @@ template<> void convert<ECrewPosition>::param(lua_State* L, int& idx, ECrewPosit
         cp = weaponsOfficer;
     else if (str == "engineering" || str == "engineeringsofficer")
         cp = engineering;
-    else if (str == "science" || str == "scienceofficer")
+    else if (str == "scanning" || str == "scienceofficer")
         cp = scienceOfficer;
     else if (str == "relay" || str == "relayofficer")
         cp = relayOfficer;
@@ -255,8 +255,8 @@ template<> void convert<ECrewPosition>::param(lua_State* L, int& idx, ECrewPosit
         cp = damageControl;
     else if (str == "powermanagement")
         cp = powerManagement;
-    else if (str == "database" || str == "databaseview")
-        cp = databaseView;
+    // else if (str == "database" || str == "databaseview")
+    //     cp = databaseView;
     
     else
         luaL_error(L, "Unknown value for crew position: %s", str.c_str());

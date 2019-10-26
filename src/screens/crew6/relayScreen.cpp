@@ -108,7 +108,7 @@ RelayScreen::RelayScreen(GuiContainer* owner)
     hack_target_button->setSize(GuiElement::GuiSizeMax, 50);
 
     // Link probe to science button.
-    link_to_science_button = new GuiToggleButton(option_buttons, "LINK_TO_SCIENCE", "Link to Science", [this](bool value){
+    link_to_science_button = new GuiToggleButton(option_buttons, "LINK_TO_SCIENCE", "Link to Scanning", [this](bool value){
         if (value)
             my_spaceship->commandSetScienceLink(targets.get()->getMultiplayerId());
         else

@@ -48,7 +48,7 @@ public:
 
     GuiKeyValueDisplay* info_faction;
     GuiKeyValueDisplay* info_type;
-    GuiButton* info_type_button;
+    // GuiButton* info_type_button;
     GuiKeyValueDisplay* info_shields;
     GuiKeyValueDisplay* info_hull;
     GuiScrollText* info_description;
