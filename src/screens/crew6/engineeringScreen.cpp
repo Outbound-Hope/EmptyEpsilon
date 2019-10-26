@@ -252,16 +252,16 @@ void EngineeringScreen::onDraw(sf::RenderTarget& window)
                     addSystemEffect("Combat recharge rate", string(int(((my_spaceship->getSystemEffectiveness(SYS_Maneuver) + my_spaceship->getSystemEffectiveness(SYS_Impulse)) / 2.0) * 100)) + "%");
                 break;
             case SYS_Impulse:
-                addSystemEffect("Impulse speed", string(int(effectiveness * 100)) + "%");
+                addSystemEffect("Ion speed", string(int(effectiveness * 100)) + "%");
                 if (my_spaceship->combat_maneuver_boost_speed > 0.0 || my_spaceship->combat_maneuver_strafe_speed)
                     addSystemEffect("Combat recharge rate", string(int(((my_spaceship->getSystemEffectiveness(SYS_Maneuver) + my_spaceship->getSystemEffectiveness(SYS_Impulse)) / 2.0) * 100)) + "%");
                 break;
             case SYS_Warp:
-                addSystemEffect("Warp drive speed", string(int(effectiveness * 100)) + "%");
+                addSystemEffect("Grav drive speed", string(int(effectiveness * 100)) + "%");
                 break;
             case SYS_JumpDrive:
-                addSystemEffect("Jump drive recharge rate", string(int(my_spaceship->getJumpDriveRechargeRate() * 100)) + "%");
-                addSystemEffect("Jump drive jump speed", string(int(effectiveness * 100)) + "%");
+                addSystemEffect("Skip drive recharge rate", string(int(my_spaceship->getJumpDriveRechargeRate() * 100)) + "%");
+                addSystemEffect("Skip drive skip speed", string(int(effectiveness * 100)) + "%");
                 break;
             case SYS_FrontShield:
                 if (gameGlobalInfo->use_beam_shield_frequencies)

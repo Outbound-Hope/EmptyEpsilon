@@ -38,7 +38,7 @@ GuiObjectTweak::GuiObjectTweak(GuiContainer* owner, ETweakType tweak_type)
         pages.push_back(new GuiShipTweakMissileWeapons(this));
         list->addEntry("Missiles", "");
         pages.push_back(new GuiShipTweakBeamweapons(this));
-        list->addEntry("Beams", "");
+        list->addEntry("Railguns", "");
         pages.push_back(new GuiShipTweakSystems(this));
         list->addEntry("Systems", "");
     }
@@ -115,7 +115,7 @@ GuiShipTweakBase::GuiShipTweakBase(GuiContainer* owner)
         target->setDescription(text);
     });
 
-    (new GuiLabel(left_col, "", "Impulse speed:", 30))->setSize(GuiElement::GuiSizeMax, 50);
+    (new GuiLabel(left_col, "", "Ion speed:", 30))->setSize(GuiElement::GuiSizeMax, 50);
     impulse_speed_slider = new GuiSlider(left_col, "", 0.0, 250, 0.0, [this](float value) {
         target->impulse_max_speed = value;
     });
@@ -170,12 +170,12 @@ GuiShipTweakBase::GuiShipTweakBase(GuiContainer* owner)
    
     // Warp and jump drive toggles
     (new GuiLabel(right_col, "", "Special drives:", 30))->setSize(GuiElement::GuiSizeMax, 50);
-    warp_toggle = new GuiToggleButton(right_col, "", "Warp Drive", [this](bool value) {
+    warp_toggle = new GuiToggleButton(right_col, "", "Grav Drive", [this](bool value) {
         target->setWarpDrive(value);
     });
     warp_toggle->setSize(GuiElement::GuiSizeMax, 40);
 
-    jump_toggle = new GuiToggleButton(right_col, "", "Jump Drive", [this](bool value) {
+    jump_toggle = new GuiToggleButton(right_col, "", "Skip Drive", [this](bool value) {
         target->setJumpDrive(value);
     });
     jump_toggle->setSize(GuiElement::GuiSizeMax, 40);
@@ -404,7 +404,7 @@ GuiShipTweakBeamweapons::GuiShipTweakBeamweapons(GuiContainer* owner)
     });
     index_selector->setSize(GuiElement::GuiSizeMax, 40);
     for(int n=0; n<max_beam_weapons; n++)
-        index_selector->addEntry("Beam: " + string(n + 1), "");
+        index_selector->addEntry("Railgun: " + string(n + 1), "");
     index_selector->setSelectionIndex(0);
 
     (new GuiLabel(right_col, "", "Arc:", 20))->setSize(GuiElement::GuiSizeMax, 30);

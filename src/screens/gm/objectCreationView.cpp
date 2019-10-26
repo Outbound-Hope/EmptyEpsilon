@@ -30,7 +30,7 @@ GuiObjectCreationView::GuiObjectCreationView(GuiContainer* owner, func_t enterCr
         y += 30;
     }
     
-    (new GuiButton(box, "CREATE_WARP_JAMMER", "Warp Jammer", [this]() {
+    (new GuiButton(box, "CREATE_WARP_JAMMER", "Grav Jammer", [this]() {
         setCreateScript("WarpJammer():setRotation(random(0, 360)):setFactionId(" + string(faction_selector->getSelectionIndex()) + ")");
     }))->setTextSize(20)->setPosition(-350, y, ATopRight)->setSize(300, 30);
     y += 30;

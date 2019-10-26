@@ -189,9 +189,9 @@ string playerWarpJumpDriveToString(EPlayerWarpJumpDrive player_warp_jump_drive)
     case PWJ_ShipDefault:
         return "Ship default";
     case PWJ_WarpDrive:
-        return "Warp-drive";
+        return "Grav-drive";
     case PWJ_JumpDrive:
-        return "Jump-drive";
+        return "Skip-drive";
     case PWJ_WarpAndJumpDrive:
         return "Both";
     default:
