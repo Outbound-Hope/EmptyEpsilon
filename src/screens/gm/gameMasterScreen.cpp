@@ -4,7 +4,6 @@
 #include "objectCreationView.h"
 #include "globalMessageEntryView.h"
 #include "tweak.h"
-#include "chatDialog.h"
 #include "spaceObjects/cpuShip.h"
 #include "spaceObjects/spaceStation.h"
 #include "spaceObjects/wormHole.h"
@@ -41,11 +40,6 @@ GameMasterScreen::GameMasterScreen()
             engine->setGameSpeed(0.0f);
     });
     pause_button->setValue(engine->getGameSpeed() == 0.0f)->setPosition(20, 20, ATopLeft)->setSize(250, 50);
-
-    intercept_comms_button = new GuiToggleButton(this, "INTERCEPT_COMMS_BUTTON", "Intercept all comms", [this](bool value) {
-        gameGlobalInfo->intercept_all_comms_to_gm = value;
-    });
-    intercept_comms_button->setValue(gameGlobalInfo->intercept_all_comms_to_gm)->setTextSize(20)->setPosition(300, 20, ATopLeft)->setSize(200, 25);
     
     faction_selector = new GuiSelector(this, "FACTION_SELECTOR", [this](int index, string value) {
         for(P<SpaceObject> obj : targets.getTargets())
@@ -114,18 +108,6 @@ GameMasterScreen::GameMasterScreen()
     });
     tweak_button->setPosition(20, -120, ABottomLeft)->setSize(250, 50)->hide();
 
-    player_comms_hail = new GuiButton(this, "HAIL_PLAYER", "Hail ship", [this]() {
-        for(P<SpaceObject> obj : targets.getTargets())
-        {
-            if (P<PlayerSpaceship>(obj))
-            {
-                int idx = gameGlobalInfo->findPlayerShip(obj);
-                chat_dialog_per_ship[idx]->show()->setPosition(main_radar->worldToScreen(obj->getPosition()))->setSize(300, 300);
-            }
-        }
-    });
-    player_comms_hail->setPosition(20, -170, ABottomLeft)->setSize(250, 50)->hide();
-
     info_layout = new GuiAutoLayout(this, "INFO_LAYOUT", GuiAutoLayout::LayoutVerticalTopToBottom);
     info_layout->setPosition(-20, 20, ATopRight)->setSize(300, GuiElement::GuiSizeMax);
     
@@ -169,14 +151,6 @@ GameMasterScreen::GameMasterScreen()
                 P<CpuShip>(obj)->orderIdle();
     }))->setTextSize(20)->setSize(GuiElement::GuiSizeMax, 30);
     (new GuiLabel(order_layout, "ORDERS_LABEL", "Orders:", 20))->addBackground()->setSize(GuiElement::GuiSizeMax, 30);
-
-    chat_layer = new GuiElement(this, "");
-    chat_layer->setPosition(0, 0)->setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);
-    for(int n=0; n<GameGlobalInfo::max_player_ships; n++)
-    {
-        chat_dialog_per_ship.push_back(new GameMasterChatDialog(chat_layer, main_radar, n));
-        chat_dialog_per_ship[n]->hide();
-    }
 
     player_tweak_dialog = new GuiObjectTweak(this, TW_Player);
     player_tweak_dialog->hide();
@@ -238,14 +212,6 @@ void GameMasterScreen::update(float delta)
         {
             if (player_ship_selector->indexByValue(string(n)) == -1)
                 player_ship_selector->addEntry(ship->getTypeName() + " " + ship->getCallSign(), string(n));
-            
-            if (ship->isCommsBeingHailedByGM() || ship->isCommsChatOpenToGM())
-            {
-                if (!chat_dialog_per_ship[n]->isVisible())
-                {
-                    chat_dialog_per_ship[n]->show()->setPosition(main_radar->worldToScreen(ship->getPosition()))->setSize(300, 300);
-                }
-            }
         }else{
             if (player_ship_selector->indexByValue(string(n)) != -1)
                 player_ship_selector->removeEntry(player_ship_selector->indexByValue(string(n)));
@@ -269,7 +235,6 @@ void GameMasterScreen::update(float delta)
     tweak_button->setVisible(has_object);
 
     order_layout->setVisible(has_cpu_ship);
-    player_comms_hail->setVisible(has_player_ship);
     
     std::unordered_map<string, string> selection_info;
 

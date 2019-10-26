@@ -206,7 +206,6 @@ PlayerSpaceship::PlayerSpaceship()
 {
     // Initialize ship settings
     main_screen_setting = MSS_Front;
-    main_screen_overlay = MSO_HideComms;
     hull_damage_indicator = 0.0;
     jump_indicator = 0.0;
     comms_state = CS_Inactive;
@@ -239,7 +238,6 @@ PlayerSpaceship::PlayerSpaceship()
     registerMemberReplication(&energy_level, 0.1);
     registerMemberReplication(&max_energy_level);
     registerMemberReplication(&main_screen_setting);
-    registerMemberReplication(&main_screen_overlay);
     registerMemberReplication(&scanning_delay, 0.5);
     registerMemberReplication(&scanning_complexity);
     registerMemberReplication(&scanning_depth);
@@ -389,6 +387,9 @@ void PlayerSpaceship::update(float delta)
     // Actions performed on the server only.
     if (game_server)
     {
+        // disable comms
+        comms_state = CS_Inactive;
+
         // Comms actions
         if (comms_state == CS_OpeningChannel)
         {
@@ -1155,9 +1156,6 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
         break;
     case CMD_SET_MAIN_SCREEN_SETTING:
         packet >> main_screen_setting;
-        break;
-    case CMD_SET_MAIN_SCREEN_OVERLAY:
-        packet >> main_screen_overlay;
         break;
     case CMD_SCAN_OBJECT:
         {

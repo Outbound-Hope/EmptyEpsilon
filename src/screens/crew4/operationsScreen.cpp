@@ -4,8 +4,7 @@
 #include "screens/crew6/scienceScreen.h"
 
 #include "screenComponents/radarView.h"
-#include "screenComponents/openCommsButton.h"
-#include "screenComponents/commsOverlay.h"
+#include "gui/gui2_button.h"
 #include "screenComponents/shipsLogControl.h"
 
 #include "spaceObjects/playerSpaceship.h"
@@ -58,7 +57,6 @@ OperationScreen::OperationScreen(GuiContainer* owner)
             }
         }
     );
-    (new GuiOpenCommsButton(science->radar_view, "OPEN_COMMS_BUTTON", &science->targets))->setPosition(-270, -20, ABottomRight)->setSize(200, 50);
 
     // Manage waypoints.
     place_waypoint_button = new GuiButton(science->radar_view, "WAYPOINT_PLACE_BUTTON", "Place waypoint", [this, science]() {
@@ -77,5 +75,4 @@ OperationScreen::OperationScreen(GuiContainer* owner)
     mode = TargetSelection;
     
     new ShipsLog(this);
-    (new GuiCommsOverlay(this))->setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);
 }

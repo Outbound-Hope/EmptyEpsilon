@@ -19,9 +19,6 @@
 #include "screenComponents/beamFrequencySelector.h"
 #include "screenComponents/beamTargetSelector.h"
 
-#include "screenComponents/openCommsButton.h"
-#include "screenComponents/commsOverlay.h"
-
 #include "screenComponents/customShipFunctions.h"
 
 #include "gui/gui2_keyvaluedisplay.h"
@@ -138,8 +135,6 @@ SinglePilotScreen::SinglePilotScreen(GuiContainer* owner)
 
     // Docking, comms, and shields buttons across top.
     (new GuiDockingButton(left_panel, "DOCKING"))->setPosition(20, 20, ATopLeft)->setSize(250, 50);
-    (new GuiOpenCommsButton(left_panel, "OPEN_COMMS_BUTTON", &targets))->setPosition(270, 20, ATopLeft)->setSize(250, 50);
-    (new GuiCommsOverlay(this))->setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);
     (new GuiShieldsEnableButton(left_panel, "SHIELDS_ENABLE"))->setPosition(520, 20, ATopLeft)->setSize(250, 50);
 
     // Missile lock button near top right of left panel.

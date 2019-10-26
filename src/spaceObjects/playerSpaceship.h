@@ -138,7 +138,7 @@ public:
     // Main screen content
     EMainScreenSetting main_screen_setting;
     // Content overlaid on the main screen, such as comms
-    EMainScreenOverlay main_screen_overlay;
+    // EMainScreenOverlay main_screen_overlay;
 
     bool activate_self_destruct;
     uint32_t self_destruct_code[max_self_destruct_codes];

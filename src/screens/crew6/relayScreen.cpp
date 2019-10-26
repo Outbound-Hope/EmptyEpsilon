@@ -5,8 +5,6 @@
 #include "scriptInterface.h"
 
 #include "screenComponents/radarView.h"
-#include "screenComponents/openCommsButton.h"
-#include "screenComponents/commsOverlay.h"
 #include "screenComponents/shipsLogControl.h"
 #include "screenComponents/hackingDialog.h"
 #include "screenComponents/customShipFunctions.h"
@@ -94,9 +92,6 @@ RelayScreen::RelayScreen(GuiContainer* owner)
     option_buttons = new GuiAutoLayout(this, "BUTTONS", GuiAutoLayout::LayoutVerticalTopToBottom);
     option_buttons->setPosition(20, 50, ATopLeft)->setSize(250, GuiElement::GuiSizeMax);
 
-    // Open comms button.
-    (new GuiOpenCommsButton(option_buttons, "OPEN_COMMS_BUTTON", &targets))->setSize(GuiElement::GuiSizeMax, 50);
-
     // Hack target
     hack_target_button = new GuiButton(option_buttons, "HACK_TARGET", "Start hacking", [this](){
         P<SpaceObject> target = targets.get();
@@ -170,8 +165,6 @@ RelayScreen::RelayScreen(GuiContainer* owner)
     hacking_dialog = new GuiHackingDialog(this, "");
 
     new ShipsLog(this);
-
-    (new GuiCommsOverlay(this))->setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);
 }
 
 void RelayScreen::onDraw(sf::RenderTarget& window)
