@@ -8,7 +8,7 @@
 #include "gui/gui2_label.h"
 #include "gui/gui2_togglebutton.h"
 
-GuiMissileTubeControls::GuiMissileTubeControls(GuiContainer* owner, string id, EWeaponScreenDirection direction)
+GuiMissileTubeControls::GuiMissileTubeControls(GuiContainer* owner, string id, EWeaponFrontDirection direction)
 : GuiAutoLayout(owner, id, LayoutVerticalBottomToTop), load_type(MW_None), manual_aim(false), missile_target_angle(0), direction(direction)
 {
     setSize(GuiElement::GuiSizeMax, GuiElement::GuiSizeMax);

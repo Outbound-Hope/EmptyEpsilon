@@ -6,6 +6,13 @@
 #include "playerInfo.h"
 #include <iostream>
 
+enum EWeaponFrontDirection
+{
+    FrontAndRight,
+    RearAndLeft,
+    All
+};
+
 enum ECommsState
 {
     CS_Inactive,          // No active comms

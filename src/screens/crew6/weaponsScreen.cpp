@@ -16,7 +16,7 @@
 #include "gui/gui2_label.h"
 #include "gui/gui2_keyvaluedisplay.h"
 
-WeaponsScreen::WeaponsScreen(GuiContainer* owner, EWeaponScreenDirection direction)
+WeaponsScreen::WeaponsScreen(GuiContainer* owner, EWeaponFrontDirection direction)
 : GuiOverlay(owner, "WEAPONS_SCREEN", colorConfig.background), direction(direction)
 {
     // Render the radar shadow and background decorations.
@@ -35,10 +35,9 @@ WeaponsScreen::WeaponsScreen(GuiContainer* owner, EWeaponScreenDirection directi
     radar->setCallbacks(
         [this](sf::Vector2f position) {
             targets.setToClosestTo(position, 250, TargetsContainer::Targetable);
-            if (my_spaceship && targets.get())
-                my_spaceship->commandSetTarget(targets.get());
-            else if (my_spaceship)
-                my_spaceship->commandSetTarget(NULL);
+            if (my_spaceship){
+                    my_spaceship->commandSetTarget(targets.get());
+            }
         }, nullptr, nullptr
     );
     missile_aim = new GuiRotationDial(this, "MISSILE_AIM", -90, 360 - 90, 0, [this](float value){

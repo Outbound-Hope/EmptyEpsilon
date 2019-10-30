@@ -4,6 +4,7 @@
 #include "gui/gui2_autolayout.h"
 #include "missileWeaponData.h"
 #include "screens/crew6/weaponsScreen.h"
+#include "spaceObjects/playerSpaceship.h"
 
 class GuiButton;
 class GuiProgressbar;
@@ -30,9 +31,9 @@ private:
     EMissileWeapons load_type;
     bool manual_aim;
     float missile_target_angle;
-    EWeaponScreenDirection direction;
+    EWeaponFrontDirection direction;
 public:
-    GuiMissileTubeControls(GuiContainer* owner, string id, EWeaponScreenDirection direction = All);
+    GuiMissileTubeControls(GuiContainer* owner, string id, EWeaponFrontDirection direction = All);
     
     virtual void onDraw(sf::RenderTarget& window) override;
     virtual void onHotkey(const HotkeyResult& key) override;
