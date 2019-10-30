@@ -1,7 +1,7 @@
 #include "gui2_progressbar.h"
 
 GuiProgressbar::GuiProgressbar(GuiContainer* owner, string id, float min_value, float max_value, float start_value)
-: GuiElement(owner, id), min_value(min_value), max_value(max_value), value(start_value), color(sf::Color(255, 255, 255, 64)), drawBackground(true)
+: GuiElement(owner, id), min_value(min_value), max_value(max_value), value(start_value), color(sf::Color(255, 255, 255, 64)), text_color(sf::Color::White), drawBackground(true), bi_directional(false), text_size(30.f)
 {
 }
 
@@ -15,22 +15,44 @@ void GuiProgressbar::onDraw(sf::RenderTarget& window)
     sf::FloatRect fill_rect = rect;
     if (rect.width >= rect.height)
     {
-        fill_rect.width *= f;
+        if (bi_directional) {
+            if (f > 0.5){
+                fill_rect.width *= f - 0.5;
+                fill_rect.left = rect.left + rect.width / 2;
+            } else {
+                fill_rect.width *= 0.5 - f;
+                fill_rect.left = rect.left + rect.width / 2 - fill_rect.width;
+            }
+        } else{
+            fill_rect.width *= f;
+        }
         drawStretchedH(window, fill_rect, "gui/ProgressbarFill", color);
-    }
-    else
-    {
-        fill_rect.height *= f;
-        fill_rect.top = rect.top + rect.height - fill_rect.height;
+    } else {
+        if (bi_directional) {
+            if (f > 0.5){
+                fill_rect.height *= f - 0.5;
+                fill_rect.top = rect.top + rect.height / 2 - fill_rect.height;
+            } else {
+                fill_rect.height *= 0.5 - f;
+                fill_rect.top = rect.top + rect.height / 2;
+            }
+        } else{
+            fill_rect.height *= f;
+            fill_rect.top = rect.top + rect.height - fill_rect.height;
+        }
         drawStretchedV(window, fill_rect, "gui/ProgressbarFill", color);
     }
-    drawText(window, rect, text, ACenter);
+    drawText(window, rect, text, ACenter, text_size, main_font, text_color);
 }
 
 GuiProgressbar* GuiProgressbar::setValue(float value)
 {
     this->value = value;
     return this;
+}
+
+float GuiProgressbar::getValue(){
+    return this->value;
 }
 
 GuiProgressbar* GuiProgressbar::setRange(float min_value, float max_value)
@@ -52,8 +74,25 @@ GuiProgressbar* GuiProgressbar::setColor(sf::Color color)
     return this;
 }
 
+GuiProgressbar* GuiProgressbar::setTextColor(sf::Color color)
+{
+    this->text_color = color;
+    return this;
+}
+
 GuiProgressbar* GuiProgressbar::setDrawBackground(bool drawBackground)
 {
     this->drawBackground = drawBackground;
+    return this;
+}
+
+GuiProgressbar* GuiProgressbar::setBiDirectional(bool biDirectional)
+{
+    this->bi_directional = biDirectional;
+    return this;
+}
+GuiProgressbar* GuiProgressbar::setTextSize(float size)
+{
+    this->text_size = size;
     return this;
 }

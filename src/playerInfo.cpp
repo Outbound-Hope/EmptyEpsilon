@@ -17,6 +17,7 @@
 #include "screens/extra/damcon.h"
 #include "screens/extra/powerManagement.h"
 #include "screens/extra/databaseScreen.h"
+#include "screens/extra/engineControlScreen.h"
 
 #include "screens/extra/shipLogScreen.h"
 
@@ -152,6 +153,9 @@ void PlayerInfo::spawnUI()
             screen->addStationTab(new DamageControlScreen(screen), damageControl, getCrewPositionName(damageControl), getCrewPositionIcon(damageControl));
         if (crew_position[powerManagement])
             screen->addStationTab(new PowerManagementScreen(screen), powerManagement, getCrewPositionName(powerManagement), getCrewPositionIcon(powerManagement));
+        if (crew_position[enigineeringView])
+            screen->addStationTab(new EngineControlScreen(screen), enigineeringView, getCrewPositionName(enigineeringView), getCrewPositionIcon(enigineeringView));
+        
         // if (crew_position[databaseView])
         //     screen->addStationTab(new DatabaseScreen(screen), databaseView, getCrewPositionName(databaseView), getCrewPositionIcon(databaseView));
         
@@ -201,6 +205,7 @@ string getCrewPositionName(ECrewPosition position)
     case operationsOfficer: return "Operations";
     case singlePilot: return "Single Pilot";
     case damageControl: return "Damage Control";
+    case enigineeringView: return "Engineering View";
     case powerManagement: return "Power Management";
     // case databaseView: return "Database";
     default: return "ErrUnk: " + string(position);
@@ -221,6 +226,7 @@ string getCrewPositionIcon(ECrewPosition position)
     case operationsOfficer: return "";
     case singlePilot: return "";
     case damageControl: return "";
+    case enigineeringView: return "";
     case powerManagement: return "";
     // case databaseView: return "";
     default: return "ErrUnk: " + string(position);
@@ -263,6 +269,8 @@ template<> void convert<ECrewPosition>::param(lua_State* L, int& idx, ECrewPosit
     //extras
     else if (str == "damagecontrol")
         cp = damageControl;
+    else if (str == "engineering view")
+        cp = enigineeringView;
     else if (str == "powermanagement")
         cp = powerManagement;
     // else if (str == "database" || str == "databaseview")

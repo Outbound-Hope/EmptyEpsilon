@@ -19,6 +19,7 @@ enum ECrewPosition
     singlePilot,
     //extras
     damageControl,
+    enigineeringView,
     powerManagement,
     // databaseView,
     weaponsOfficerFrontAndRight,
