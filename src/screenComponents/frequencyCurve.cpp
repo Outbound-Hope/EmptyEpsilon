@@ -56,7 +56,7 @@ void GuiFrequencyCurve::onDraw(sf::RenderTarget& window)
                 text = frequencyToString(mouse_freq_nr) + " " + string(int(frequencyVsFrequencyDamageFactor(mouse_freq_nr, frequency) * 100)) + "% dmg";
         }else{
             if (more_damage_is_positive)
-                text = "Damage with your beams";
+                text = "Damage with your railguns";
             else
                 text = "Damage on your shields";
         }
