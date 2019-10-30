@@ -113,6 +113,8 @@ SpaceShip::SpaceShip(string multiplayerClassName, float multiplayer_significant_
     rear_target_id = -1;
     beam_frequency = irandom(0, max_frequency);
     beam_system_target = SYS_None;
+    rear_beam_frequency = irandom(0, max_frequency);
+    rear_beam_system_target = SYS_None;
     shield_frequency = irandom(0, max_frequency);
     docking_state = DS_NotDocking;
     impulse_acceleration = 20.0;

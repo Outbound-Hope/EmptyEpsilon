@@ -235,7 +235,9 @@ public:
     void commandSendCommPlayer(string message);
     void commandSetAutoRepair(bool enabled);
     void commandSetBeamFrequency(int32_t frequency);
+    void commandSetRearBeamFrequency(int32_t frequency);
     void commandSetBeamSystemTarget(ESystem system);
+    void commandSetRearBeamSystemTarget(ESystem system);
     void commandSetShieldFrequency(int32_t frequency);
     void commandAddWaypoint(sf::Vector2f position);
     void commandRemoveWaypoint(int32_t index);

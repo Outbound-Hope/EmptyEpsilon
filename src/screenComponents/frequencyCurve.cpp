@@ -33,15 +33,24 @@ void GuiFrequencyCurve::onDraw(sf::RenderTarget& window)
             else
                 bar.setFillColor(sf::Color(255 * f, 255 * (1.0 - f), 0));
             window.draw(bar);
-            
-            if (my_spaceship && ((frequency_is_beam && n == my_spaceship->getShieldsFrequency()) || (!frequency_is_beam && n == my_spaceship->beam_frequency)))
-            {
-                sf::Sprite image;
-                textureManager.setTexture(image, "gui/SelectorArrow");
-                image.setPosition(x + w / 2.0, rect.top + rect.height - 20 - h);
-                image.setRotation(-90);
-                image.setScale(0.2, 0.2);
-                window.draw(image);
+            if (my_spaceship){
+                bool isShield = frequency_is_beam && n == my_spaceship->getShieldsFrequency();
+                bool isBeams = !frequency_is_beam && n == my_spaceship->beam_frequency;
+                bool isRearBeams = !frequency_is_beam && n == my_spaceship->rear_beam_frequency;
+                if (isShield || isBeams || isRearBeams)
+                {
+                    sf::Sprite image;
+                    textureManager.setTexture(image, "gui/SelectorArrow");
+                    image.setPosition(x + w / 2.0, rect.top + rect.height - 20 - h);
+                    image.setRotation(-90);
+                    image.setScale(0.2, 0.2);
+                    if (isBeams && !isRearBeams){
+                        image.setColor(sf::Color::Green);
+                    } else if (!isBeams && isRearBeams){
+                        image.setColor(sf::Color::Red);
+                    }
+                    window.draw(image);
+                }
             }
         }
         

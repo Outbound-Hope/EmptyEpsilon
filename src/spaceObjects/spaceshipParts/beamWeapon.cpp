@@ -220,7 +220,7 @@ void BeamWeapon::update(float delta)
             {
                 // ... add heat to the beam and zap the target.
                 parent->addHeat(SYS_BeamWeapons, heat_per_beam_fire);
-                fire(target, parent->beam_system_target);
+                fire(target, isFront? parent->beam_system_target : parent->rear_beam_system_target);
             }
         }
     // If the beam is turreted and can move, but doesn't have a target, reset it
@@ -251,8 +251,9 @@ void BeamWeapon::fire(P<SpaceObject> target, ESystem system_target)
     effect->beam_fire_sound = "sfx/laser_fire.wav";
     effect->beam_fire_sound_power = damage / 6.0f;
 
+    bool isFront = isWeaponFrontDirection(FrontAndRight, getDirection());
     DamageInfo info(parent, DT_Energy, hit_location);
-    info.frequency = parent->beam_frequency; // Beam weapons now always use frequency of the ship.
+    info.frequency = isFront? parent->beam_frequency : parent->rear_beam_frequency; // Beam weapons now always use frequency of the ship.
     info.system_target = system_target;
     target->takeDamage(damage, info);
 }

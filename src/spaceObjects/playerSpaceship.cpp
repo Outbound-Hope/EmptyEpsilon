@@ -190,6 +190,8 @@ static const int16_t CMD_SET_MAIN_SCREEN_OVERLAY = 0x0027;
 static const int16_t CMD_HACKING_FINISHED = 0x0028;
 static const int16_t CMD_CUSTOM_FUNCTION = 0x0029;
 static const int16_t CMD_SET_REAR_TARGET = 0x002A;
+static const int16_t CMD_SET_REAR_BEAM_FREQUENCY = 0x002B;
+static const int16_t CMD_SET_REAR_BEAM_SYSTEM_TARGET = 0x002C;
 
 string alertLevelToString(EAlertLevel level)
 {
@@ -1368,6 +1370,17 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
                 beam_frequency = SpaceShip::max_frequency;
         }
         break;
+    case CMD_SET_REAR_BEAM_FREQUENCY:
+        {
+            int32_t new_frequency;
+            packet >> new_frequency;
+            rear_beam_frequency = new_frequency;
+            if (rear_beam_frequency < 0)
+                rear_beam_frequency = 0;
+            if (rear_beam_frequency > SpaceShip::max_frequency)
+                rear_beam_frequency = SpaceShip::max_frequency;
+        }
+        break;
     case CMD_SET_BEAM_SYSTEM_TARGET:
         {
             ESystem system;
@@ -1377,6 +1390,17 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
                 beam_system_target = SYS_None;
             if (beam_system_target > ESystem(int(SYS_COUNT) - 1))
                 beam_system_target = ESystem(int(SYS_COUNT) - 1);
+        }
+        break;
+    case CMD_SET_REAR_BEAM_SYSTEM_TARGET:
+        {
+            ESystem system;
+            packet >> system;
+            rear_beam_system_target = system;
+            if (rear_beam_system_target < SYS_None)
+                rear_beam_system_target = SYS_None;
+            if (rear_beam_system_target > ESystem(int(SYS_COUNT) - 1))
+                rear_beam_system_target = ESystem(int(SYS_COUNT) - 1);
         }
         break;
     case CMD_SET_SHIELD_FREQUENCY:
@@ -1735,10 +1759,24 @@ void PlayerSpaceship::commandSetBeamFrequency(int32_t frequency)
     sendClientCommand(packet);
 }
 
+void PlayerSpaceship::commandSetRearBeamFrequency(int32_t frequency)
+{
+    sf::Packet packet;
+    packet << CMD_SET_REAR_BEAM_FREQUENCY << frequency;
+    sendClientCommand(packet);
+}
+
 void PlayerSpaceship::commandSetBeamSystemTarget(ESystem system)
 {
     sf::Packet packet;
     packet << CMD_SET_BEAM_SYSTEM_TARGET << system;
+    sendClientCommand(packet);
+}
+
+void PlayerSpaceship::commandSetRearBeamSystemTarget(ESystem system)
+{
+    sf::Packet packet;
+    packet << CMD_SET_REAR_BEAM_SYSTEM_TARGET << system;
     sendClientCommand(packet);
 }
 

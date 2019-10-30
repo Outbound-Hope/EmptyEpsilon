@@ -6,7 +6,7 @@
 class GuiBeamTargetSelector : public GuiSelector
 {
 public:
-    GuiBeamTargetSelector(GuiContainer* owner, string id);
+    GuiBeamTargetSelector(GuiContainer* owner, string id, EWeaponFrontDirection weaponDirection);
     
     virtual void onHotkey(const HotkeyResult& key) override;
 };
