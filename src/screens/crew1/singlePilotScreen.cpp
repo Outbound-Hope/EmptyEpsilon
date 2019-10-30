@@ -124,7 +124,7 @@ SinglePilotScreen::SinglePilotScreen(GuiContainer* owner)
     // Weapon tube controls.
     tube_controls = new GuiMissileTubeControls(left_panel, "MISSILE_TUBES");
     tube_controls->setPosition(20, -20, ABottomLeft);
-    radar->enableTargetProjections(tube_controls);
+    radar->enableTargetProjections(tube_controls, All);
 
     // Engine layout in top left corner of left panel.
     GuiAutoLayout* engine_layout = new GuiAutoLayout(left_panel, "ENGINE_LAYOUT", GuiAutoLayout::LayoutHorizontalLeftToRight);

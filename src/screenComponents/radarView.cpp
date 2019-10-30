@@ -402,9 +402,10 @@ void GuiRadarView::drawTargetProjections(sf::RenderTarget& window)
 
     if (my_spaceship && missile_tube_controls)
     {
+        bool isFront = weaponDirection != RearAndLeft;
         for(int n=0; n<my_spaceship->weapon_tube_count; n++)
         {
-            if (!my_spaceship->weapon_tube[n].isLoaded())
+            if (!my_spaceship->weapon_tube[n].isLoaded() || !isWeaponFrontDirection(weaponDirection, my_spaceship->weapon_tube[n].getDirection()))
                 continue;
             sf::Vector2f fire_position = my_spaceship->getPosition() + sf::rotateVector(my_spaceship->ship_template->model_data->getTubePosition2D(n), my_spaceship->getRotation());
             sf::Vector2f fire_draw_position = radar_screen_center - (view_position - fire_position) * scale;
@@ -418,7 +419,7 @@ void GuiRadarView::drawTargetProjections(sf::RenderTarget& window)
                 {
                     missile_target_angle = missile_tube_controls->getMissileTargetAngle();
                 }else{
-                    float firing_solution = my_spaceship->weapon_tube[n].calculateFiringSolution(my_spaceship->getTarget());
+                    float firing_solution = my_spaceship->weapon_tube[n].calculateFiringSolution(isFront? my_spaceship->getTarget() : my_spaceship->getRearTarget());
                     if (firing_solution != std::numeric_limits<float>::infinity())
                         missile_target_angle = firing_solution;
                 }

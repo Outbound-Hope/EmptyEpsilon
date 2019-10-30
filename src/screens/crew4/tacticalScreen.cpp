@@ -106,7 +106,7 @@ TacticalScreen::TacticalScreen(GuiContainer* owner)
     // Weapon tube loading controls in the bottom left corner.
     tube_controls = new GuiMissileTubeControls(this, "MISSILE_TUBES");
     tube_controls->setPosition(20, -20, ABottomLeft);
-    radar->enableTargetProjections(tube_controls);
+    radar->enableTargetProjections(tube_controls, All);
 
     // Weapon tube locking, and manual aiming controls.
     missile_aim = new GuiRotationDial(this, "MISSILE_AIM", -90, 360 - 90, 0, [this](float value){

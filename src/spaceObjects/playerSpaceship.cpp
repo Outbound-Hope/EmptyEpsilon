@@ -9,6 +9,13 @@
 
 #include "scriptInterface.h"
 
+
+bool isWeaponFrontDirection(EWeaponFrontDirection front, float weaponDirection){
+    return front == All || 
+            (front == FrontAndRight && std::abs(sf::angleDifference(45.f, weaponDirection)) <= 90)|| 
+            (front == RearAndLeft && std::abs(sf::angleDifference(225.0f, weaponDirection)) <= 90);
+} 
+
 // PlayerSpaceship are ships controlled by a player crew.
 REGISTER_SCRIPT_SUBCLASS(PlayerSpaceship, SpaceShip)
 {
@@ -182,6 +189,7 @@ static const int16_t CMD_ABORT_DOCK = 0x0026;
 static const int16_t CMD_SET_MAIN_SCREEN_OVERLAY = 0x0027;
 static const int16_t CMD_HACKING_FINISHED = 0x0028;
 static const int16_t CMD_CUSTOM_FUNCTION = 0x0029;
+static const int16_t CMD_SET_REAR_TARGET = 0x002A;
 
 string alertLevelToString(EAlertLevel level)
 {
@@ -1104,6 +1112,11 @@ void PlayerSpaceship::onReceiveClientCommand(int32_t client_id, sf::Packet& pack
             packet >> target_id;
         }
         break;
+    case CMD_SET_REAR_TARGET:
+        {
+            packet >> rear_target_id;
+        }
+        break;
     case CMD_LOAD_TUBE:
         {
             int8_t tube_nr;
@@ -1557,6 +1570,16 @@ void PlayerSpaceship::commandSetTarget(P<SpaceObject> target)
         packet << CMD_SET_TARGET << target->getMultiplayerId();
     else
         packet << CMD_SET_TARGET << int32_t(-1);
+    sendClientCommand(packet);
+}
+
+void PlayerSpaceship::commandSetRearTarget(P<SpaceObject> target)
+{
+    sf::Packet packet;
+    if (target)
+        packet << CMD_SET_REAR_TARGET << target->getMultiplayerId();
+    else
+        packet << CMD_SET_REAR_TARGET << int32_t(-1);
     sendClientCommand(packet);
 }
 

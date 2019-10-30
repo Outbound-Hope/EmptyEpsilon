@@ -5,6 +5,7 @@
 #include "spaceObjects/missiles/nuke.h"
 #include "spaceObjects/missiles/hvli.h"
 #include "spaceObjects/spaceship.h"
+#include "spaceObjects/playerSpaceship.h"
 
 WeaponTube::WeaponTube()
 {
@@ -122,6 +123,7 @@ float WeaponTube::getSizeCategoryModifier()
 void WeaponTube::spawnProjectile(float target_angle)
 {
     sf::Vector2f fireLocation = parent->getPosition() + sf::rotateVector(parent->ship_template->model_data->getTubePosition2D(tube_index), parent->getRotation());
+    bool isFront = isWeaponFrontDirection(FrontAndRight, getDirection());
     switch(type_loaded)
     {
     case MW_Homing:
@@ -129,7 +131,7 @@ void WeaponTube::spawnProjectile(float target_angle)
             P<HomingMissile> missile = new HomingMissile();
             missile->owner = parent;
             missile->setFactionId(parent->getFactionId());
-            missile->target_id = parent->target_id;
+            missile->target_id = isFront ? parent->target_id : parent->rear_target_id;
             missile->setPosition(fireLocation);
             missile->setRotation(parent->getRotation() + direction);
             missile->target_angle = target_angle;
@@ -141,7 +143,7 @@ void WeaponTube::spawnProjectile(float target_angle)
             P<Nuke> missile = new Nuke();
             missile->owner = parent;
             missile->setFactionId(parent->getFactionId());
-            missile->target_id = parent->target_id;
+            missile->target_id = isFront ? parent->target_id : parent->rear_target_id;
             missile->setPosition(fireLocation);
             missile->setRotation(parent->getRotation() + direction);
             missile->target_angle = target_angle;
@@ -174,7 +176,7 @@ void WeaponTube::spawnProjectile(float target_angle)
             P<EMPMissile> missile = new EMPMissile();
             missile->owner = parent;
             missile->setFactionId(parent->getFactionId());
-            missile->target_id = parent->target_id;
+            missile->target_id = isFront ? parent->target_id : parent->rear_target_id;
             missile->setPosition(fireLocation);
             missile->setRotation(parent->getRotation() + direction);
             missile->target_angle = target_angle;

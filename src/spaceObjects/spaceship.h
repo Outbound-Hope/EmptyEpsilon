@@ -162,6 +162,7 @@ public:
 
     /// MultiplayerObjectID of the targeted object, or -1 when no target is selected.
     int32_t target_id;
+    int32_t rear_target_id;
 
     EDockingState docking_state;
     P<SpaceObject> docking_target; //Server only
@@ -279,6 +280,7 @@ public:
     virtual void applyTemplateValues();
 
     P<SpaceObject> getTarget();
+    P<SpaceObject> getRearTarget();
 
     virtual std::unordered_map<string, string> getGMInfo();
 

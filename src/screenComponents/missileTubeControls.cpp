@@ -44,7 +44,8 @@ GuiMissileTubeControls::GuiMissileTubeControls(GuiContainer* owner, string id, E
                 float target_angle = missile_target_angle;
                 if (!manual_aim)
                 {
-                    target_angle = my_spaceship->weapon_tube[n].calculateFiringSolution(my_spaceship->getTarget());
+                    bool isFront = this->direction != RearAndLeft;
+                    target_angle = my_spaceship->weapon_tube[n].calculateFiringSolution(isFront? my_spaceship->getTarget() : my_spaceship->getRearTarget());
                     if (target_angle == std::numeric_limits<float>::infinity())
                         target_angle = my_spaceship->getRotation() + my_spaceship->weapon_tube[n].getDirection();
                 }
@@ -97,9 +98,7 @@ void GuiMissileTubeControls::onDraw(sf::RenderTarget& window){
     {
         WeaponTube& tube = my_spaceship->weapon_tube[n];
         
-        if (direction == All || 
-            (direction == FrontAndRight && std::abs(sf::angleDifference(45.f, tube.getDirection())) <= 90)|| 
-            (direction == RearAndLeft && std::abs(sf::angleDifference(225.0f, tube.getDirection())) <= 90))
+        if (isWeaponFrontDirection(direction, tube.getDirection()))
         {
             rows[n].layout->show();
             if (tube.canOnlyLoad(MW_Mine))
@@ -182,7 +181,8 @@ void GuiMissileTubeControls::onHotkey(const HotkeyResult& key)
                 float target_angle = missile_target_angle;
                 if (!manual_aim)
                 {
-                    target_angle = my_spaceship->weapon_tube[n].calculateFiringSolution(my_spaceship->getTarget());
+                    bool isFront = this->direction != RearAndLeft;
+                    target_angle = my_spaceship->weapon_tube[n].calculateFiringSolution(isFront? my_spaceship->getTarget() : my_spaceship->getRearTarget());
                     if (target_angle == std::numeric_limits<float>::infinity())
                         target_angle = my_spaceship->getRotation() + my_spaceship->weapon_tube[n].getDirection();
                 }

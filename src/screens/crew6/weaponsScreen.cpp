@@ -47,7 +47,7 @@ WeaponsScreen::WeaponsScreen(GuiContainer* owner, EWeaponFrontDirection directio
 
     tube_controls = new GuiMissileTubeControls(this, "MISSILE_TUBES", direction);
     tube_controls->setPosition(20, -20, ABottomLeft);
-    radar->enableTargetProjections(tube_controls);
+    radar->enableTargetProjections(tube_controls, direction);
 
     lock_aim = new AimLockButton(this, "LOCK_AIM", tube_controls, missile_aim);
     lock_aim->setPosition(250, 20, ATopCenter)->setSize(130, 50);
@@ -90,10 +90,11 @@ void WeaponsScreen::onDraw(sf::RenderTarget& window)
 {
     if (my_spaceship)
     {
+        bool isFront = this->direction != RearAndLeft;
         energy_display->setValue(string(int(my_spaceship->energy_level)));
         front_shield_display->setValue(string(my_spaceship->getShieldPercentage(0)) + "%");
         rear_shield_display->setValue(string(my_spaceship->getShieldPercentage(1)) + "%");
-        targets.set(my_spaceship->getTarget());
+        targets.set(isFront? my_spaceship->getTarget() : my_spaceship->getRearTarget());
 
         missile_aim->setVisible(tube_controls->getManualAim());
     }

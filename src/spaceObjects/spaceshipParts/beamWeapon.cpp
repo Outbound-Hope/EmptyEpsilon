@@ -2,6 +2,7 @@
 #include "spaceObjects/spaceship.h"
 #include "spaceObjects/beamEffect.h"
 #include "spaceObjects/spaceObject.h"
+#include "spaceObjects/playerSpaceship.h"
 
 BeamWeapon::BeamWeapon()
 {
@@ -164,7 +165,8 @@ void BeamWeapon::update(float delta)
     if (cooldown > 0.0)
         cooldown -= delta * parent->getSystemEffectiveness(SYS_BeamWeapons);
 
-    P<SpaceObject> target = parent->getTarget();
+    bool isFront = isWeaponFrontDirection(FrontAndRight, getDirection());
+    P<SpaceObject> target = isFront? parent->getTarget() : parent->getRearTarget();
 
     // Check on beam weapons only if we are on the server, have a target, and
     // not paused, and if the beams are cooled down or have a turret arc.

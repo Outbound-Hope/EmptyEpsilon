@@ -110,6 +110,7 @@ SpaceShip::SpaceShip(string multiplayerClassName, float multiplayer_significant_
     combat_maneuver_boost_speed = 0.0f;
     combat_maneuver_strafe_speed = 0.0f;
     target_id = -1;
+    rear_target_id = -1;
     beam_frequency = irandom(0, max_frequency);
     beam_system_target = SYS_None;
     shield_frequency = irandom(0, max_frequency);
@@ -132,6 +133,7 @@ SpaceShip::SpaceShip(string multiplayerClassName, float multiplayer_significant_
     registerMemberReplication(&wormhole_alpha, 0.5);
     registerMemberReplication(&weapon_tube_count);
     registerMemberReplication(&target_id);
+    registerMemberReplication(&rear_target_id);
     registerMemberReplication(&turn_speed);
     registerMemberReplication(&impulse_max_speed);
     registerMemberReplication(&impulse_acceleration);
@@ -673,6 +675,13 @@ P<SpaceObject> SpaceShip::getTarget()
     return game_client->getObjectById(target_id);
 }
 
+P<SpaceObject> SpaceShip::getRearTarget()
+{
+    if (game_server)
+        return game_server->getObjectById(rear_target_id);
+    return game_client->getObjectById(rear_target_id);
+}
+
 void SpaceShip::executeJump(float distance)
 {
     float f = systems[SYS_JumpDrive].health;
@@ -919,6 +928,8 @@ void SpaceShip::didAnOffensiveAction()
         if (getScannedStateForFaction(faction_id) == SS_NotScanned)
         {
             if (getTarget() && getTarget()->getScannedStateForFaction(faction_id) != SS_NotScanned)
+                setScannedStateForFaction(faction_id, SS_FriendOrFoeIdentified);
+            if (getRearTarget() && getRearTarget()->getScannedStateForFaction(faction_id) != SS_NotScanned)
                 setScannedStateForFaction(faction_id, SS_FriendOrFoeIdentified);
         }
     }
